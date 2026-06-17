@@ -1,0 +1,63 @@
+<body>
+  {{> mainContainer}}
+</body>
+
+<template name="mainContainer">
+  <div class="app">
+    <header>
+      <div class="app-bar">
+        <div class="app-header">
+          <h1>📝️ To Do List {{incompleteCount}}</h1>
+        </div>
+      </div>
+    </header>
+
+    <div class="main">
+      {{#if isUserLogged}}
+
+        <div class="user">
+          {{getUser.username}} 🚪
+        </div>
+
+        {{> form}}
+
+        <div class="filter">
+          <button class="{{#if isAllFilter}}active-filter{{/if}}" id="filter-all">All</button>
+          <button class="{{#if isWorkFilter}}active-filter{{/if}}" id="filter-work">Work</button>
+          <button class="{{#if isPersonalFilter}}active-filter{{/if}}" id="filter-personal">Personal</button>
+          <button class="{{#if isUrgentFilter}}active-filter{{/if}}" id="filter-urgent">Urgent</button>
+          <button class="{{#if isOtherFilter}}active-filter{{/if}}" id="filter-other">Other</button>
+          <button id="hide-completed-button">
+            {{#if hideCompleted}}Show All{{else}}Hide Completed{{/if}}
+          </button>
+        </div>
+
+        {{#if isLoading}}
+          <div class="loading">loading...</div>
+        {{/if}}
+
+        <ul class="tasks" id="task-list">
+          {{#each tasks}}
+            {{> task}}
+          {{/each}}
+        </ul>
+
+      {{else}}
+        {{> login}}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="form">
+  <form class="task-form">
+    <input type="text" name="text" placeholder="Type to add new tasks" />
+    <select name="category">
+      <option value="work">Work</option>
+      <option value="personal">Personal</option>
+      <option value="urgent">Urgent</option>
+      <option value="other">Other</option>
+    </select>
+    <button type="submit">Add Task</button>
+  </form>
+</template>
